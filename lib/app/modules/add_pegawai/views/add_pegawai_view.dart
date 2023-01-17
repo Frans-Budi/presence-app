@@ -24,7 +24,7 @@ class AddPegawaiView extends GetView<AddPegawaiController> {
               border: OutlineInputBorder(),
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           TextField(
             autocorrect: false,
             controller: controller.nameC,
@@ -33,7 +33,7 @@ class AddPegawaiView extends GetView<AddPegawaiController> {
               border: OutlineInputBorder(),
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           TextField(
             autocorrect: false,
             controller: controller.emailC,
@@ -42,12 +42,17 @@ class AddPegawaiView extends GetView<AddPegawaiController> {
               border: OutlineInputBorder(),
             ),
           ),
-          SizedBox(height: 30),
-          ElevatedButton(
-            onPressed: () {
-              controller.addPegawai();
-            },
-            child: Text("ADD PEGAWAI"),
+          const SizedBox(height: 30),
+          Obx(
+            () => ElevatedButton(
+              onPressed: () async {
+                if (controller.isLoading.isFalse) {
+                  await controller.addPegawai();
+                }
+              },
+              child: Text(
+                  controller.isLoading.isFalse ? "ADD PEGAWAI" : "LOADING..."),
+            ),
           ),
         ],
       ),

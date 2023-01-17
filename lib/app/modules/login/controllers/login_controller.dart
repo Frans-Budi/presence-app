@@ -4,12 +4,14 @@ import 'package:get/get.dart';
 import 'package:presence2/app/routes/app_pages.dart';
 
 class LoginController extends GetxController {
+  RxBool isLoading = false.obs;
   TextEditingController emailC = TextEditingController();
   TextEditingController passC = TextEditingController();
 
   FirebaseAuth auth = FirebaseAuth.instance;
 
-  void login() async {
+  Future<void> login() async {
+    isLoading.value = true;
     if (emailC.text.isNotEmpty && passC.text.isNotEmpty) {
       // eksekusi
       try {
@@ -24,6 +26,7 @@ class LoginController extends GetxController {
         if (credential.user != null) {
           // Jika emailnya terverifikasi
           if (credential.user!.emailVerified == true) {
+            isLoading.value = false;
             if (passC.text == "password") {
               Get.offAllNamed(Routes.NEW_PASSWORD);
             } else {
@@ -36,7 +39,10 @@ class LoginController extends GetxController {
                   "Kamu belum verifikasi akun ini. Lakukan verifikasi di email ini.",
               actions: [
                 OutlinedButton(
-                  onPressed: () => Get.back(),
+                  onPressed: () {
+                    isLoading.value = false;
+                    Get.back();
+                  },
                   child: Text("CANCEL"),
                 ),
                 ElevatedButton(
@@ -46,7 +52,9 @@ class LoginController extends GetxController {
                       Get.back();
                       Get.snackbar("Berhasil",
                           "Kami telah berhasil mengirim email verifikasi ke akun kamu.");
+                      isLoading.value = false;
                     } catch (e) {
+                      isLoading.value = false;
                       Get.snackbar("Terjadi Kesalahan",
                           "Tidak dapat mengirim email verifikasi. Hubungi admin atau customer Service");
                     }
@@ -57,13 +65,16 @@ class LoginController extends GetxController {
             );
           }
         }
+        isLoading.value = false;
       } on FirebaseAuthException catch (e) {
+        isLoading.value = false;
         if (e.code == 'user-not-found') {
           Get.snackbar("Terjadi Kesalahan", "Email tidak ditemukan");
         } else if (e.code == 'wrong-password') {
           Get.snackbar("Terjadi Kesalahan", "Password Salah!");
         }
       } catch (e) {
+        isLoading.value = false;
         Get.snackbar("Terjadi Kesalahan", "Tidak dapat login");
       }
     } else {
