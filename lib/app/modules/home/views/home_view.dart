@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -16,9 +17,19 @@ class HomeView extends GetView<HomeController> {
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () => Get.toNamed(Routes.ADD_PEGAWAI),
+            onPressed: () => Get.toNamed(Routes.PROFILE),
             icon: Icon(Icons.person),
           ),
+          // StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+          //   stream: controller.streamRole(),
+          //   builder: (context, snapshot) {
+          //     if (snapshot.connectionState == ConnectionState.waiting) {
+          //       return SizedBox();
+          //     }
+          //     String role = snapshot.data!.data()!['role'];
+          //     return
+          //   },
+          // ),
         ],
       ),
       floatingActionButton: Obx(
