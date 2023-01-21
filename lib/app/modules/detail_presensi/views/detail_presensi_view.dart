@@ -44,11 +44,11 @@ class DetailPresensiView extends GetView<DetailPresensiController> {
                 Text(
                     "Jam : ${DateFormat.jms().format(DateTime.parse(data['masuk']!['date']))}"),
                 Text(
-                    "Posisi : ${data['keluar']['lat']}, ${data['keluar']['long']}"),
-                Text("Status : ${data['keluar']['status']}"),
-                Text("Address : ${data['keluar']['address']}"),
+                    "Posisi : ${data['masuk']['lat']}, ${data['masuk']['long']}"),
+                Text("Status : ${data['masuk']['status']}"),
+                Text("Address : ${data['masuk']['address']}"),
                 Text(
-                    "Distance : ± ${data['keluar']['distance'].toString().split('.').first} Meter"),
+                    "Distance : ± ${data['masuk']['distance'].toString().split('.').first} Meter"),
                 const SizedBox(height: 20),
                 // Keluar
                 Text(
@@ -57,20 +57,20 @@ class DetailPresensiView extends GetView<DetailPresensiController> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Text(data['keluar']['date'] == null
+                Text(data['keluar']?['date'] == null
                     ? "Jam : -"
                     : "Jam : ${DateFormat.jms().format(DateTime.parse(data['keluar']['date']))}"),
-                Text(data['keluar']['lat'] == null &&
-                        data['keluar']['long'] == null
+                Text(data['keluar']?['lat'] == null ||
+                        data['keluar']?['long'] == null
                     ? "Posisi : -"
                     : "Posisi : ${data['keluar']['lat']}, ${data['keluar']['long']}"),
-                Text(data['keluar']['status'] == null
+                Text(data['keluar']?['status'] == null
                     ? "Status : -"
                     : "Status : ${data['keluar']['status']}"),
-                Text(data['keluar']['address'] == null
+                Text(data['keluar']?['address'] == null
                     ? "Address : -"
                     : "Address : ${data['keluar']['address']}"),
-                Text(data['keluar']['distance'] == null
+                Text(data['keluar']?['distance'] == null
                     ? "Distance : -"
                     : "Distance : ± ${data['keluar']['distance'].toString().split('.').first} Meter"),
                 const SizedBox(height: 20),
